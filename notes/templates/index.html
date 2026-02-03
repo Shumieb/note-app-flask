@@ -2,6 +2,25 @@
 
 {% block body %}
 
-<p> This is a home page</p>
+<h1 class="home-heading">My Notes</h1>
+
+<div class="add-btn-container">
+    <a class="add-btn" href="/add-note">Add New Note</a>
+</div>
+
+<div class="notes-container">
+    {% for note in notes%}        
+            <div 
+                class="note-card {% if note.priority == 'low' %} green-border {% elif note.priority == 'high' %} red-border {% else %} orange-border {% endif %}"
+            >
+                <p class="priority"> Priority: {{ note.priority }} </p>
+                <p class="note-desc"> {{ note.note }} </p>
+                <div class="action-btns">
+                    <a class="edit-btn" href="{{'/edit-note/'+ note.id}}">Edit</a>
+                    <a class="delete-btn" href="{{'/delete-note/'+ note.id}}">Delete</a>
+                </div>
+            </div>        
+    {% endfor%}
+</div>
 
 {% endblock %}

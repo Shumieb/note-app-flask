@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -15,9 +15,31 @@ notes = [
 ## render html templates
 
 # render home page
+@app.route("/")
+def home_page():
+    return render_template("index.html", notes=notes)
 
+@app.route("/add-note")
+def show_add_note_page():
+    return render_template("add-note.html")
 
+@app.route("/edit-note/<id>")
+def show_edit_note_page(id):
+    return render_template("edit-note.html", note_id=id)
 
+@app.route("/delete-note/<id>")
+def show_delete_note_page(id):
+    return render_template("delete-note.html", note_id=id)
+
+# render about page
+@app.route("/about")
+def about_page():
+    return render_template("about.html")
+
+# render contact page
+@app.route("/contact")
+def contact_page():
+    return render_template("contact.html")
 
 
 ## interact with data
