@@ -115,12 +115,50 @@ a{
     margin-left: 8px;
     color: white;
     font-size: 18px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
+.add-btn-container .add-btn:hover{
+    box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+}
 
+/*-----------------------------------add-note----------------------------------*/
+.add-form{
+    text-align: center;
+}
 
+.add-form-sect{
+    padding: 8px 4px;
+}
 
+.add-form-sect label{
+    font-size: 22px;
+    padding: 0px 6px;
+}
 
+.add-form-sect textarea{
+    padding: 4px;
+    font-size: 18px;
+    margin-top: 6px;
+}
+
+.add-form-sect select{
+    font-size: 18px;
+    padding: 2px 4px;
+    font-weight: normal;
+}
+
+.add-form-sect .submit-btn{
+    padding: 5px 12px;
+    border: 2px solid rgb(13, 79, 13);
+    background-color: rgb(13, 79, 13);
+    border-radius: 5px;
+    margin-top: 8px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
 
 /*-----------------------------------nav-bar----------------------------------*/
 

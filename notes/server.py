@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
 
@@ -79,7 +79,7 @@ def create_note():
 
     notes.append(new_note)
 
-    return new_note
+    return render_template("index.html", notes=notes)
 
 
 # update a note

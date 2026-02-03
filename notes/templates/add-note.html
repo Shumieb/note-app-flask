@@ -2,6 +2,23 @@
 
 {% block body %}
 
-<p> This is a add note page</p>
+<h1 class="home-heading">New Note</h1>
+
+<form class="add-form" action="/notes" method="post">
+    <div class="add-form-sect">
+        <textarea name="note_desc" cols="60" rows="10" placeholder="New Note ...."></textarea>
+    </div>
+    <div class="add-form-sect">
+        <label for="priority">Priority</label>
+        <select name="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+    </div>
+    <div class="add-form-sect">
+        <input class="submit-btn" type="submit" value="Add Note">
+    </div>
+</form>
 
 {% endblock %}
