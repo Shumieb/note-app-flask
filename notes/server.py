@@ -65,19 +65,17 @@ def list_single_note(id):
 def create_note():
     global next_id
 
-    if len(request.json["note"]) < 3:
-        return "Please enter a note"
+    if len(request.form.get("note_desc")) > 3:
+        new_note = {
+            "id": f'{next_id}',
+            "note": request.form.get("note_desc"),
+            "priority": request.form.get("priority"),
+            "complete": False
+        }
 
-    new_note = {
-        "id": f'{next_id}',
-        "note": request.json["note"],
-        "priority": request.json["priority"] if "priority" in request.json else "low",
-        "complete": False
-    }
+        next_id += 1
 
-    next_id += 1
-
-    notes.append(new_note)
+        notes.append(new_note)
 
     return render_template("index.html", notes=notes)
 
