@@ -12,6 +12,15 @@ notes = [
     {"id":"4", "note":"This is note number 4", "priority":"medium", "complete": True},
 ]
 
+## render html templates
+
+# render home page
+
+
+
+
+
+## interact with data
 
 # list all notes
 @app.get("/notes")
