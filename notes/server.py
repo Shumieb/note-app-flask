@@ -25,7 +25,12 @@ def show_add_note_page():
 
 @app.route("/edit-note/<id>")
 def show_edit_note_page(id):
-    return render_template("edit-note.html", note_id=id)
+    for note in notes:
+        if note["id"] == f'{id}':
+            return render_template("edit-note.html", note=note)
+        
+    return render_template("edit-note.html", note=id)
+
 
 @app.route("/delete-note/<id>")
 def show_delete_note_page(id):
@@ -60,37 +65,33 @@ def list_single_note(id):
     return f"Note with id {id} not found"
 
 
-# add new note
-@app.post("/notes")
-def create_note():
+# add new note 
+# update a note
+@app.post("/notes", defaults={'id': None})
+@app.post("/notes/<id>")
+def create_note(id):
     global next_id
 
-    if len(request.form.get("note_desc")) > 3:
-        new_note = {
-            "id": f'{next_id}',
-            "note": request.form.get("note_desc"),
-            "priority": request.form.get("priority"),
-            "complete": False
-        }
+    if id is None:
+        if len(request.form.get("note_desc")) > 3:
+            new_note = {
+                "id": f'{next_id}',
+                "note": request.form.get("note_desc"),
+                "priority": request.form.get("priority"),
+                "complete": False
+            }
 
-        next_id += 1
+            next_id += 1
 
-        notes.append(new_note)
+            notes.append(new_note)
+
+    else:
+        for note in notes:
+            if note["id"] == id:
+                note["note"] = request.form.get("note_desc") 
+                note["priority"] = request.form.get("priority")
 
     return render_template("index.html", notes=notes)
-
-
-# update a note
-@app.put("/notes/<id>")
-def update_note(id):
-    for note in notes:
-        if note["id"] == id:
-            note["note"] = request.json["note"] if "note" in request.json else note["note"]
-            note["priority"] = request.json["priority"] if "priority" in request.json else note["priority"]
-            note["complete"] = request.json["complete"] if "complete" in request.json else note["complete"]
-            return note
-    
-    return f"Note with id {id} not found"
 
 
 # delete a note

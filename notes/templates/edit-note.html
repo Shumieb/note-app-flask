@@ -2,6 +2,27 @@
 
 {% block body %}
 
-<p> This is the edit note page {{ note_id }}</p>
+<h1 class="home-heading">Edit Note</h1>
+
+<form class="add-form" action="/notes/{{ note.id }}" method="post">
+    <div class="add-form-sect">
+        <textarea 
+            name="note_desc" 
+            cols="60" rows="10" 
+            placeholder="New Note ...."
+        >{{ note.note}}</textarea>
+    </div>
+    <div class="add-form-sect">
+        <label for="priority">Priority</label>
+        <select name="priority">
+            <option value="low" {% if note.priority == 'low' %} selected {% endif %}>Low</option>
+            <option value="medium" {%if note.priority == 'medium' %} selected {% endif %}>Medium</option>
+            <option value="high" {%if note.priority == 'high' %} selected {% endif %}>High</option>
+        </select>
+    </div>
+    <div class="add-form-sect">
+        <input class="submit-btn" type="submit" value="Edit Note">
+    </div>
+</form>
 
 {% endblock %}
