@@ -2,6 +2,21 @@
 
 {% block body %}
 
-<p> This is a delete page {{ note_id }}</p>
+<h1 class="home-heading">Delete Note</h1>
+
+<p class="del-text">Are you sure you want to delete this note?</p>
+
+<div class="del-card-container">
+    <div 
+        class="note-card {% if note.priority == 'low' %} green-border {% elif note.priority == 'high' %} red-border {% else %} orange-border {% endif %}"
+    >
+        <p class="priority"> Priority: {{ note.priority }} </p>
+        <p class="note-desc"> {{ note.note }} </p> 
+        <form class="action-btns" action="/notes/delete/{{ note.id }}" method="post">
+            <button type="submit" class="delete-btn">Yes Delete Note</button>
+        </form> 
+    </div>  
+</div>
+
 
 {% endblock %}

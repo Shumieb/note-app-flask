@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for
 
 app = Flask(__name__)
 
@@ -19,22 +19,28 @@ notes = [
 def home_page():
     return render_template("index.html", notes=notes)
 
+# render add-note page
 @app.route("/add-note")
 def show_add_note_page():
     return render_template("add-note.html")
 
+# render edit-note page
 @app.route("/edit-note/<id>")
 def show_edit_note_page(id):
     for note in notes:
         if note["id"] == f'{id}':
             return render_template("edit-note.html", note=note)
         
-    return render_template("edit-note.html", note=id)
+    return redirect(url_for('home_page')) 
 
-
+# render delete note page
 @app.route("/delete-note/<id>")
 def show_delete_note_page(id):
-    return render_template("delete-note.html", note_id=id)
+    for note in notes:
+        if note["id"] == f'{id}':
+            return render_template("delete-note.html", note=note)
+
+    return redirect(url_for('home_page')) 
 
 # render about page
 @app.route("/about")
@@ -50,19 +56,19 @@ def contact_page():
 ## interact with data
 
 # list all notes
-@app.get("/notes")
-def list_notes():
-    return notes
+#@app.get("/notes")
+#def list_notes():
+#    return notes
 
 
 # list a single note
-@app.get("/notes/<id>")
-def list_single_note(id):
-    for note in notes:
-        if note["id"] == id:
-            return note
-    
-    return f"Note with id {id} not found"
+#@app.get("/notes/<id>")
+#def list_single_note(id):
+#    for note in notes:
+#       if note["id"] == id:
+#           return note
+# 
+#    return f"Note with id {id} not found"
 
 
 # add new note 
@@ -73,6 +79,7 @@ def create_note(id):
     global next_id
 
     if id is None:
+        # create and add a new note
         if len(request.form.get("note_desc")) > 3:
             new_note = {
                 "id": f'{next_id}',
@@ -86,35 +93,35 @@ def create_note(id):
             notes.append(new_note)
 
     else:
+        # update an existing note
         for note in notes:
             if note["id"] == id:
                 note["note"] = request.form.get("note_desc") 
                 note["priority"] = request.form.get("priority")
 
-    return render_template("index.html", notes=notes)
+    return redirect(url_for('home_page')) 
 
 
 # delete a note
-@app.delete("/notes/<id>")
+@app.post("/notes/delete/<id>")
 def delete_note(id):
     for note in notes:
         if note["id"] == id:
             notes.remove(note)
-            return note
+            return redirect(url_for('home_page')) 
     
-    return f"Note with id {id} not found"
+    return redirect(url_for('home_page')) 
 
 
 # get notes by priority
-@app.get("/notes/priority/<priority>")
-def notes_by_priority(priority):
-    filtered_notes = [note for note in notes if note["priority"] == priority]
-    
-    if len(filtered_notes) > 0:
-        return filtered_notes
-    
-    return f"No notes with the priority - {priority} - to return"
-
+#@app.get("/notes/priority/<priority>")
+#def notes_by_priority(priority):
+#    filtered_notes = [note for note in notes if note["priority"] == priority]
+#    
+#    if len(filtered_notes) > 0:
+#        return filtered_notes
+#   
+#   return f"No notes with the priority - {priority} - to return"
 
 
 app.run()
